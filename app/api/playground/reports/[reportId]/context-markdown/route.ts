@@ -12,7 +12,14 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+
+    // Development bypass
+    let userId = session?.user?.id;
+    if (!userId && process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTH === 'true') {
+      userId = 'dev-user-123';
+    }
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -26,25 +33,34 @@ export async function GET(
       return NextResponse.json({ error: 'Report not found' }, { status: 404 });
     }
 
-    const reportUserId = report.userId?.toString();
-    const sessionUserId = session.user.id?.toString();
-    const isOwner = reportUserId === sessionUserId;
+    // Check access permissions
+    let isOwner = false;
 
-    if (!isOwner) {
-      console.error('❌ Report context access denied:', {
-        reportId,
-        reportUserId,
-        sessionUserId,
-        isOwner
-      });
-      return NextResponse.json({
-        error: 'Access denied. You do not have permission to view this report context.',
-        debug: process.env.NODE_ENV === 'development' ? {
+    // In dev mode with auth disabled, allow access to all reports
+    if (process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTH === 'true') {
+      console.log('⚠️ Dev mode: Bypassing report context access check');
+      isOwner = true; // Set as owner in dev mode
+    } else {
+      const reportUserId = report.userId?.toString();
+      const sessionUserId = userId?.toString();
+      isOwner = reportUserId === sessionUserId;
+
+      if (!isOwner) {
+        console.error('❌ Report context access denied:', {
+          reportId,
           reportUserId,
           sessionUserId,
           isOwner
-        } : undefined
-      }, { status: 403 });
+        });
+        return NextResponse.json({
+          error: 'Access denied. You do not have permission to view this report context.',
+          debug: process.env.NODE_ENV === 'development' ? {
+            reportUserId,
+            sessionUserId,
+            isOwner
+          } : undefined
+        }, { status: 403 });
+      }
     }
 
     console.log('✅ Report context access granted:', { reportId, isOwner });

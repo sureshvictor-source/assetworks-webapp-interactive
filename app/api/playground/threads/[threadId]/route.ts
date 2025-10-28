@@ -13,7 +13,14 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+
+    // Development bypass
+    let userId = session?.user?.id;
+    if (!userId && process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTH === 'true') {
+      userId = 'dev-user-123';
+    }
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -28,13 +35,18 @@ export async function GET(
     }
 
     // Check access permissions
-    const isOwner = thread.userId === session.user.id;
-    const hasSharedAccess = thread.sharedWith.some(
-      (share) => share.userId === session.user.id
-    );
+    // In dev mode with auth disabled, allow access to all threads
+    if (process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTH === 'true') {
+      console.log('⚠️ Dev mode: Bypassing thread access check');
+    } else {
+      const isOwner = thread.userId === userId;
+      const hasSharedAccess = thread.sharedWith.some(
+        (share) => share.userId === userId
+      );
 
-    if (!isOwner && !hasSharedAccess) {
-      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+      if (!isOwner && !hasSharedAccess) {
+        return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+      }
     }
 
     // Get all messages for this thread

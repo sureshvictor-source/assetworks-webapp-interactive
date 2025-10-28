@@ -38,12 +38,12 @@ export function ReportPanel() {
     moveSection,
   } = useReportStore();
   
-  // Load sections when report changes
+  // Load sections when report changes - always load, not just in interactive mode
   useEffect(() => {
-    if (currentReport?.isInteractiveMode && currentReport._id) {
+    if (currentReport?._id) {
       loadSections(currentReport._id);
     }
-  }, [currentReport?._id, currentReport?.isInteractiveMode, loadSections]);
+  }, [currentReport?._id, loadSections]);
   
   const handleEditSection = (sectionId: string) => {
     const section = sections.find(s => s._id === sectionId);
@@ -100,6 +100,10 @@ export function ReportPanel() {
     // Clear any editing context
     setEditingContext(null);
     setSelectedSectionId(null);
+
+    // Reload sections from database to ensure we show persisted data
+    await loadSections(currentReport._id);
+    toast.success('Exited interactive mode');
   };
   
   return (
@@ -212,19 +216,22 @@ export function ReportPanel() {
               />
             )}
           </div>
-        ) : currentReport?.isInteractiveMode && sections.length > 0 && !isLoadingSections ? (
+        ) : sections.length > 0 && !isLoadingSections ? (
           <div className="max-w-5xl mx-auto space-y-6">
-            {/* Interactive Sections */}
-            <AddSectionButton
-              reportId={currentReport._id}
-              position={0}
-              onSectionAdded={() => loadSections(currentReport._id)}
-            />
-            
+            {/* Interactive Sections - Show sections even when not in interactive mode */}
+            {currentReport?.isInteractiveMode && (
+              <AddSectionButton
+                reportId={currentReport._id}
+                position={0}
+                onSectionAdded={() => loadSections(currentReport._id)}
+              />
+            )}
+
             {sections.map((section, index) => {
               const isEditing = editingContext?.type === 'edit' && editingContext?.sectionId === section._id;
               const isOtherSectionEditing = editingContext && editingContext.sectionId !== section._id;
-              
+              const isInteractive = currentReport?.isInteractiveMode;
+
               return (
                 <div
                   key={section._id}
@@ -232,38 +239,50 @@ export function ReportPanel() {
                     isOtherSectionEditing ? 'opacity-30 pointer-events-none' : 'opacity-100'
                   }`}
                 >
-                  <InteractiveSection
-                    sectionId={section._id}
-                    reportId={section.reportId}
-                    htmlContent={section.htmlContent}
-                    title={section.title}
-                    order={section.order}
-                    isFirst={index === 0}
-                    isLast={index === sections.length - 1}
-                    isSelected={selectedSectionId === section._id}
-                    isCollapsed={collapsedSections[section._id] || false}
-                    isInEditMode={isEditing}
-                    isStreaming={sectionStreamingState[section._id] || false}
-                    previewContent={sectionPreviewContent[section._id]}
-                    onSelect={() => setSelectedSectionId(section._id)}
-                    onEdit={handleEditSection}
-                    onCancelEdit={() => {
-                      setEditingContext(null);
-                      setSelectedSectionId(null);
-                    }}
-                    onDelete={(id) => deleteSection(currentReport._id, id)}
-                    onDuplicate={(id) => duplicateSection(currentReport._id, id)}
-                    onMoveUp={(id) => moveSection(currentReport._id, id, 'up')}
-                    onMoveDown={(id) => moveSection(currentReport._id, id, 'down')}
-                    onDownload={handleDownloadSection}
-                    onToggleCollapse={toggleSectionCollapse}
-                  />
-                  
-                  <AddSectionButton
-                    reportId={currentReport._id}
-                    position={section.order + 1}
-                    onSectionAdded={() => loadSections(currentReport._id)}
-                  />
+                  {isInteractive ? (
+                    <InteractiveSection
+                      sectionId={section._id}
+                      reportId={section.reportId}
+                      htmlContent={section.htmlContent}
+                      title={section.title}
+                      order={section.order}
+                      isFirst={index === 0}
+                      isLast={index === sections.length - 1}
+                      isSelected={selectedSectionId === section._id}
+                      isCollapsed={collapsedSections[section._id] || false}
+                      isInEditMode={isEditing}
+                      isStreaming={sectionStreamingState[section._id] || false}
+                      previewContent={sectionPreviewContent[section._id]}
+                      onSelect={() => setSelectedSectionId(section._id)}
+                      onEdit={handleEditSection}
+                      onCancelEdit={() => {
+                        setEditingContext(null);
+                        setSelectedSectionId(null);
+                      }}
+                      onDelete={(id) => deleteSection(currentReport._id, id)}
+                      onDuplicate={(id) => duplicateSection(currentReport._id, id)}
+                      onMoveUp={(id) => moveSection(currentReport._id, id, 'up')}
+                      onMoveDown={(id) => moveSection(currentReport._id, id, 'down')}
+                      onDownload={handleDownloadSection}
+                      onToggleCollapse={toggleSectionCollapse}
+                    />
+                  ) : (
+                    // Non-interactive section display
+                    <div className="mb-6 p-6 bg-background border border-border rounded-lg">
+                      {section.title && (
+                        <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
+                      )}
+                      <ChartRenderer htmlContent={section.htmlContent} />
+                    </div>
+                  )}
+
+                  {isInteractive && (
+                    <AddSectionButton
+                      reportId={currentReport._id}
+                      position={section.order + 1}
+                      onSectionAdded={() => loadSections(currentReport._id)}
+                    />
+                  )}
                 </div>
               );
             })}

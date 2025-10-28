@@ -13,7 +13,14 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+
+    // Development bypass
+    let userId = session?.user?.id;
+    if (!userId && process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTH === 'true') {
+      userId = 'dev-user-123';
+    }
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -28,31 +35,40 @@ export async function GET(
     }
 
     // Check access permissions
-    const threadUserId = thread.userId?.toString();
-    const sessionUserId = session.user.id?.toString();
+    let isOwner = false;
+    let hasSharedAccess = false;
 
-    const isOwner = threadUserId === sessionUserId;
-    const hasSharedAccess = thread.sharedWith?.some(
-      (share: any) => share.userId?.toString() === sessionUserId
-    );
+    // In dev mode with auth disabled, allow access to all threads
+    if (process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTH === 'true') {
+      console.log('⚠️ Dev mode: Bypassing thread context access check');
+      isOwner = true; // Set as owner in dev mode
+    } else {
+      const threadUserId = thread.userId?.toString();
+      const sessionUserId = userId?.toString();
 
-    if (!isOwner && !hasSharedAccess) {
-      console.error('❌ Context access denied:', {
-        threadId,
-        threadUserId,
-        sessionUserId,
-        hasSharedWith: !!thread.sharedWith,
-        sharedWithLength: thread.sharedWith?.length || 0
-      });
-      return NextResponse.json({
-        error: 'Access denied. You do not have permission to view this thread context.',
-        debug: process.env.NODE_ENV === 'development' ? {
+      isOwner = threadUserId === sessionUserId;
+      hasSharedAccess = thread.sharedWith?.some(
+        (share: any) => share.userId?.toString() === sessionUserId
+      );
+
+      if (!isOwner && !hasSharedAccess) {
+        console.error('❌ Context access denied:', {
+          threadId,
           threadUserId,
           sessionUserId,
-          isOwner,
-          hasSharedAccess
-        } : undefined
-      }, { status: 403 });
+          hasSharedWith: !!thread.sharedWith,
+          sharedWithLength: thread.sharedWith?.length || 0
+        });
+        return NextResponse.json({
+          error: 'Access denied. You do not have permission to view this thread context.',
+          debug: process.env.NODE_ENV === 'development' ? {
+            threadUserId,
+            sessionUserId,
+            isOwner,
+            hasSharedAccess
+          } : undefined
+        }, { status: 403 });
+      }
     }
 
     console.log('✅ Context access granted:', { threadId, isOwner, hasSharedAccess });

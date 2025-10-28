@@ -978,6 +978,9 @@ export default function FinancialPlaygroundPage() {
     setEditingContext(null);
     setSelectedSectionId(null);
 
+    // Reload sections from database to ensure we show persisted data
+    await loadSections(currentReport._id);
+
     toast.success('Exited interactive mode');
   };
 
