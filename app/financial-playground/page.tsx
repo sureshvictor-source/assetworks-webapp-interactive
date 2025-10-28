@@ -1439,25 +1439,36 @@ export default function FinancialPlaygroundPage() {
                   {/* System Prompt Selector */}
                   {systemPrompts.length > 0 && (
                     <div className="border-t border-border/50 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50">
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-primary flex-shrink-0" />
-                        <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">AI Mode:</span>
-                        <Select value={activeSystemPromptId} onValueChange={switchSystemPrompt}>
-                          <SelectTrigger className="flex-1 h-8 text-xs min-w-0">
-                            <SelectValue placeholder="Select a prompt" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {systemPrompts.map((prompt) => (
-                              <SelectItem
-                                key={prompt.id}
-                                value={prompt.id}
-                                className="text-xs"
-                              >
-                                {prompt.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 flex-1">
+                          <Sparkles className="w-4 h-4 text-primary flex-shrink-0" />
+                          <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">AI Mode:</span>
+                          <Select value={activeSystemPromptId} onValueChange={switchSystemPrompt}>
+                            <SelectTrigger className="flex-1 h-8 text-xs min-w-0">
+                              <SelectValue placeholder="Select a prompt" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {systemPrompts.map((prompt) => (
+                                <SelectItem
+                                  key={prompt.id}
+                                  value={prompt.id}
+                                  className="text-xs"
+                                >
+                                  {prompt.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 px-2 text-xs"
+                          onClick={() => router.push('/system-prompts')}
+                        >
+                          <Settings className="w-3.5 h-3.5 mr-1" />
+                          Manage
+                        </Button>
                       </div>
                     </div>
                   )}
