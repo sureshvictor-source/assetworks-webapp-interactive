@@ -202,6 +202,12 @@
     --destructive: 354 70% 54%; /* #DC3545 */
     --destructive-foreground: 0 0% 100%;
 
+    /* Status Colors - AssetWorks Design System */
+    --success: 160 84% 39%; /* #10B981 - Green */
+    --warning: 38 92% 50%; /* #F59E0B - Amber */
+    --error: 0 84% 60%; /* #EF4444 - Red */
+    --info: 217 91% 60%; /* #3B82F6 - Blue */
+
     /* Borders */
     --border: 210 16% 93%; /* #E9ECEF */
     --input: 210 16% 93%;
