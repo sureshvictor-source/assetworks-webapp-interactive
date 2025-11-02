@@ -4,19 +4,41 @@
  * AssetWorks Design System - Complete Interactive Demo
  *
  * Comprehensive showcase of ALL design system elements with full interactivity
+ * Featuring 200+ design tokens and 17 component variant modules
  */
 
 import { useState } from 'react';
-import { buttonVariants, badgeVariants, cardVariants, cardHeaderVariants } from '@/lib/component-variants';
+import {
+  // Button & Badge
+  buttonVariants, badgeVariants,
+  // Card
+  cardVariants, cardHeaderVariants, cardTitleVariants, cardContentVariants,
+  // Form Components
+  inputVariants, textareaVariants, selectVariants, checkboxVariants, switchVariants, radioVariants, sliderVariants,
+  // Navigation
+  navbarVariants, breadcrumbsVariants, breadcrumbItemVariants, paginationVariants, tabsListVariants, tabsTriggerVariants,
+  // Data Display
+  accordionItemVariants, accordionTriggerVariants, tableVariants, listVariants, listItemVariants, statVariants,
+  // Overlays
+  modalOverlayVariants, modalContentVariants, tooltipContentVariants, popoverContentVariants,
+  // Feedback
+  alertVariants, toastVariants, progressVariants, progressIndicatorVariants, spinnerVariants, skeletonVariants, emptyStateVariants,
+  // Media
+  avatarVariants, avatarFallbackVariants, imageVariants, iconVariants,
+  // Layout
+  dividerVariants, spacerVariants, stackVariants, sectionVariants, centerVariants,
+} from '@/lib/component-variants';
 
 export default function DesignSystemDemo() {
   const [showModal, setShowModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('tab1');
+  const [activeTab, setActiveTab] = useState('overview');
   const [accordionOpen, setAccordionOpen] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(45);
   const [switchValue, setSwitchValue] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [sliderValue, setSliderValue] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleLoadingDemo = () => {
     setIsLoading(true);
@@ -31,7 +53,7 @@ export default function DesignSystemDemo() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-primary">🎨 AssetWorks Design System</h1>
-              <p className="text-sm text-muted-foreground mt-1">Complete Interactive Demo</p>
+              <p className="text-sm text-muted-foreground mt-1">Exhaustive Interactive Demo - 200+ Tokens & 17 Modules</p>
             </div>
             <div className="flex gap-2">
               <span className={badgeVariants({ variant: 'success', size: 'lg' })}>v1.0.0</span>
@@ -40,6 +62,23 @@ export default function DesignSystemDemo() {
           </div>
         </div>
       </header>
+
+      {/* Navigation - Quick Links */}
+      <nav className={navbarVariants({ variant: 'default', sticky: false })}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex flex-wrap gap-2">
+            {['Colors', 'Buttons', 'Forms', 'Navigation', 'Data', 'Overlays', 'Feedback', 'Media', 'Layout'].map((section) => (
+              <a
+                key={section}
+                href={`#${section.toLowerCase()}`}
+                className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+              >
+                {section}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
 
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
 
@@ -176,309 +215,89 @@ export default function DesignSystemDemo() {
                   <button className={buttonVariants({ variant: 'info' })}>Info</button>
                 </div>
               </div>
-
-              {/* Button States */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Button States</h3>
-                <div className="flex flex-wrap gap-3">
-                  <button className={buttonVariants({ variant: 'default' })}>Default</button>
-                  <button className={buttonVariants({ variant: 'default' })} disabled>Disabled</button>
-                  <button className={buttonVariants({ variant: 'default', loading: true })} onClick={handleLoadingDemo}>
-                    {isLoading && (
-                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                    )}
-                    {isLoading ? 'Loading...' : 'Click to Load'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Full Width */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Full Width</h3>
-                <button className={buttonVariants({ variant: 'default', fullWidth: true })}>
-                  Full Width Button
-                </button>
-              </div>
-
-              {/* Buttons with Icons */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Buttons with Icons</h3>
-                <div className="flex flex-wrap gap-3">
-                  <button className={buttonVariants({ variant: 'default' })}>
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                    Add Item
-                  </button>
-                  <button className={buttonVariants({ variant: 'destructive' })}>
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    Delete
-                  </button>
-                  <button className={buttonVariants({ variant: 'success' })}>
-                    Save
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </section>
 
         {/* ============================================ */}
-        {/* SECTION: Badges - All Variants */}
-        {/* ============================================ */}
-        <section id="badges">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Badges</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>9 variants × 3 sizes</span>
-          </div>
-
-          <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
-            <div className="space-y-6">
-              {/* All Variants */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Badge Variants</h3>
-                <div className="flex flex-wrap gap-3">
-                  <span className={badgeVariants({ variant: 'default' })}>Default</span>
-                  <span className={badgeVariants({ variant: 'secondary' })}>Secondary</span>
-                  <span className={badgeVariants({ variant: 'outline' })}>Outline</span>
-                  <span className={badgeVariants({ variant: 'ghost' })}>Ghost</span>
-                  <span className={badgeVariants({ variant: 'destructive' })}>Destructive</span>
-                  <span className={badgeVariants({ variant: 'success' })}>Success</span>
-                  <span className={badgeVariants({ variant: 'warning' })}>Warning</span>
-                  <span className={badgeVariants({ variant: 'info' })}>Info</span>
-                  <span className={badgeVariants({ variant: 'idle' })}>Idle</span>
-                </div>
-              </div>
-
-              {/* Sizes */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Badge Sizes</h3>
-                <div className="flex flex-wrap gap-3 items-center">
-                  <span className={badgeVariants({ variant: 'default', size: 'sm' })}>Small</span>
-                  <span className={badgeVariants({ variant: 'default', size: 'default' })}>Default</span>
-                  <span className={badgeVariants({ variant: 'default', size: 'lg' })}>Large</span>
-                </div>
-              </div>
-
-              {/* Status Use Cases */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Status Examples</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">User Status:</span>
-                    <span className={badgeVariants({ variant: 'success' })}>Active</span>
-                    <span className={badgeVariants({ variant: 'idle' })}>Inactive</span>
-                    <span className={badgeVariants({ variant: 'warning' })}>Pending</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">Order Status:</span>
-                    <span className={badgeVariants({ variant: 'info' })}>Processing</span>
-                    <span className={badgeVariants({ variant: 'warning' })}>Shipped</span>
-                    <span className={badgeVariants({ variant: 'success' })}>Delivered</span>
-                    <span className={badgeVariants({ variant: 'destructive' })}>Cancelled</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">Priority:</span>
-                    <span className={badgeVariants({ variant: 'destructive' })}>High</span>
-                    <span className={badgeVariants({ variant: 'warning' })}>Medium</span>
-                    <span className={badgeVariants({ variant: 'secondary' })}>Low</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================ */}
-        {/* SECTION: Cards - All Variants */}
-        {/* ============================================ */}
-        <section id="cards">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Cards</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>8 variants</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Default Card */}
-            <div className={cardVariants({ variant: 'default' })}>
-              <div className={cardHeaderVariants({ border: true })}>
-                <h3 className="text-lg font-semibold">Default Card</h3>
-                <p className="text-sm text-muted-foreground">Standard card style</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">This is a default card with bordered header.</p>
-                <div className="flex gap-2 mt-4">
-                  <button className={buttonVariants({ variant: 'default', size: 'sm' })}>Action</button>
-                  <button className={buttonVariants({ variant: 'outline', size: 'sm' })}>Cancel</button>
-                </div>
-              </div>
-            </div>
-
-            {/* Outlined Card */}
-            <div className={cardVariants({ variant: 'outlined' })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Outlined Card</h3>
-                <p className="text-sm text-muted-foreground">Thicker border</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">Card with a 2px border for emphasis.</p>
-              </div>
-            </div>
-
-            {/* Elevated Card */}
-            <div className={cardVariants({ variant: 'elevated' })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Elevated Card</h3>
-                <p className="text-sm text-muted-foreground">Larger shadow</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">Card with enhanced shadow for depth.</p>
-              </div>
-            </div>
-
-            {/* Hoverable Card */}
-            <div className={cardVariants({ variant: 'default', hoverable: true, clickable: true })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Interactive Card</h3>
-                <p className="text-sm text-muted-foreground">Hover & click me!</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">This card responds to hover and click interactions.</p>
-              </div>
-            </div>
-
-            {/* Ghost Card */}
-            <div className={cardVariants({ variant: 'ghost' })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Ghost Card</h3>
-                <p className="text-sm text-muted-foreground">Minimal styling</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">Transparent card for subtle layouts.</p>
-              </div>
-            </div>
-
-            {/* Primary Accent Card */}
-            <div className={cardVariants({ variant: 'primary' })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Primary Card</h3>
-                <p className="text-sm text-muted-foreground">Brand accent</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">Card with primary color accent.</p>
-              </div>
-            </div>
-
-            {/* Success Card */}
-            <div className={cardVariants({ variant: 'success' })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Success Card</h3>
-                <p className="text-sm text-muted-foreground">Positive message</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">✅ Operation completed successfully!</p>
-              </div>
-            </div>
-
-            {/* Warning Card */}
-            <div className={cardVariants({ variant: 'warning' })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Warning Card</h3>
-                <p className="text-sm text-muted-foreground">Caution notice</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">⚠️ Please review before proceeding.</p>
-              </div>
-            </div>
-
-            {/* Error Card */}
-            <div className={cardVariants({ variant: 'error' })}>
-              <div className={cardHeaderVariants()}>
-                <h3 className="text-lg font-semibold">Error Card</h3>
-                <p className="text-sm text-muted-foreground">Error message</p>
-              </div>
-              <div className="p-6 pt-0">
-                <p className="text-sm">❌ An error occurred. Please try again.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================ */}
-        {/* SECTION: Form Elements */}
+        {/* SECTION: Form Components */}
         {/* ============================================ */}
         <section id="forms">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Form Elements</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>Interactive</span>
+            <h2 className="text-3xl font-semibold">Form Components</h2>
+            <span className={badgeVariants({ variant: 'secondary' })}>7 component types</span>
           </div>
 
-          <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
-            <div className="space-y-6">
-              {/* Text Inputs */}
+          <div className={stackVariants({ direction: 'vertical', gap: 'lg' })}>
+            {/* Inputs */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-xl font-medium mb-4">Input Fields</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Text Input</label>
+                  <label className="block text-sm font-medium mb-2">Default Input</label>
                   <input
                     type="text"
                     placeholder="Enter text..."
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className={inputVariants({ variant: 'default', size: 'default' })}
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email Input</label>
+                  <label className="block text-sm font-medium mb-2">Filled Variant</label>
+                  <input
+                    type="text"
+                    placeholder="Filled style..."
+                    className={inputVariants({ variant: 'filled', size: 'default' })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Large Size</label>
                   <input
                     type="email"
                     placeholder="email@example.com"
-                    className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    className={inputVariants({ variant: 'default', size: 'lg' })}
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium mb-2">Password Input</label>
+                  <label className="block text-sm font-medium mb-2">Small Size</label>
                   <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Number Input</label>
-                  <input
-                    type="number"
-                    placeholder="0"
-                    className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    type="text"
+                    placeholder="Small input"
+                    className={inputVariants({ variant: 'default', size: 'sm' })}
                   />
                 </div>
               </div>
+            </div>
 
-              {/* Textarea */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Textarea</label>
-                <textarea
-                  placeholder="Enter your message..."
-                  rows={4}
-                  className="flex w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                />
-              </div>
-
-              {/* Select */}
+            {/* Textarea */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-xl font-medium mb-4">Textarea</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Select</label>
-                  <select className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                  <label className="block text-sm font-medium mb-2">Default Textarea</label>
+                  <textarea
+                    placeholder="Enter your message..."
+                    rows={4}
+                    className={textareaVariants({ variant: 'default', size: 'default' })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Filled Textarea</label>
+                  <textarea
+                    placeholder="Filled style..."
+                    rows={4}
+                    className={textareaVariants({ variant: 'filled', size: 'default' })}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Select, Checkbox, Switch, Radio */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-xl font-medium mb-4">Select & Choice Components</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Select Dropdown</label>
+                  <select className={selectVariants({ variant: 'default', size: 'default' })}>
                     <option>Choose an option</option>
                     <option>Option 1</option>
                     <option>Option 2</option>
@@ -487,32 +306,15 @@ export default function DesignSystemDemo() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Disabled Input</label>
-                  <input
-                    type="text"
-                    placeholder="Disabled field"
-                    disabled
-                    className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  />
-                </div>
-              </div>
-
-              {/* Checkbox & Radio */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
                   <label className="block text-sm font-medium mb-3">Checkboxes</label>
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" className="w-4 h-4 rounded border-border text-primary focus:ring-2 focus:ring-ring" />
+                      <input type="checkbox" className={checkboxVariants({ size: 'default' })} />
                       <span className="text-sm">Option 1</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" className="w-4 h-4 rounded border-border text-primary focus:ring-2 focus:ring-ring" defaultChecked />
+                      <input type="checkbox" className={checkboxVariants({ size: 'default' })} defaultChecked />
                       <span className="text-sm">Option 2 (checked)</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer opacity-50">
-                      <input type="checkbox" className="w-4 h-4 rounded border-border" disabled />
-                      <span className="text-sm">Option 3 (disabled)</span>
                     </label>
                   </div>
                 </div>
@@ -521,390 +323,284 @@ export default function DesignSystemDemo() {
                   <label className="block text-sm font-medium mb-3">Radio Buttons</label>
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="radio" className="w-4 h-4 border-border text-primary focus:ring-2 focus:ring-ring" />
+                      <input type="radio" name="radio" className={radioVariants({ size: 'default' })} />
                       <span className="text-sm">Choice A</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="radio" className="w-4 h-4 border-border text-primary focus:ring-2 focus:ring-ring" defaultChecked />
+                      <input type="radio" name="radio" className={radioVariants({ size: 'default' })} defaultChecked />
                       <span className="text-sm">Choice B (selected)</span>
                     </label>
-                    <label className="flex items-center gap-2 cursor-pointer opacity-50">
-                      <input type="radio" name="radio" className="w-4 h-4 border-border" disabled />
-                      <span className="text-sm">Choice C (disabled)</span>
-                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-3">Toggle Switch</label>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setSwitchValue(!switchValue)}
+                      className={switchVariants({ size: 'default', checked: switchValue })}
+                    >
+                      <span className="sr-only">Toggle</span>
+                    </button>
+                    <span className="text-sm">{switchValue ? 'Enabled' : 'Disabled'}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Switch Toggle */}
-              <div>
-                <label className="block text-sm font-medium mb-3">Toggle Switch</label>
-                <button
-                  onClick={() => setSwitchValue(!switchValue)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    switchValue ? 'bg-primary' : 'bg-muted'
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      switchValue ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+              {/* Slider */}
+              <div className="mt-8">
+                <label className="block text-sm font-medium mb-3">Range Slider</label>
+                <div className="space-y-2">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={sliderValue}
+                    onChange={(e) => setSliderValue(Number(e.target.value))}
+                    className="w-full"
                   />
-                </button>
-                <span className="ml-3 text-sm">{switchValue ? 'Enabled' : 'Disabled'}</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================ */}
-        {/* SECTION: Loading States */}
-        {/* ============================================ */}
-        <section id="loading">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Loading States</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>Animated</span>
-          </div>
-
-          <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
-            <div className="space-y-8">
-              {/* Spinners */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Spinners</h3>
-                <div className="flex items-center gap-6">
-                  <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
-                  <div className="animate-spin h-8 w-8 border-4 border-success border-t-transparent rounded-full" />
-                  <div className="animate-spin h-8 w-8 border-4 border-warning border-t-transparent rounded-full" />
-                  <div className="animate-spin h-8 w-8 border-4 border-error border-t-transparent rounded-full" />
-                </div>
-              </div>
-
-              {/* Progress Bar */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-medium">Progress Bar</h3>
-                  <span className="text-sm text-muted-foreground">{progress}%</span>
-                </div>
-                <div className="w-full bg-muted rounded-full h-2">
-                  <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
-                </div>
-                <div className="flex gap-2 mt-3">
-                  <button
-                    className={buttonVariants({ variant: 'outline', size: 'sm' })}
-                    onClick={() => setProgress(Math.max(0, progress - 10))}
-                  >
-                    -10%
-                  </button>
-                  <button
-                    className={buttonVariants({ variant: 'outline', size: 'sm' })}
-                    onClick={() => setProgress(Math.min(100, progress + 10))}
-                  >
-                    +10%
-                  </button>
-                </div>
-              </div>
-
-              {/* Skeleton Loaders */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Skeleton Loaders</h3>
-                <div className="space-y-3">
-                  <div className="h-4 bg-muted rounded animate-pulse" />
-                  <div className="h-4 bg-muted rounded animate-pulse w-5/6" />
-                  <div className="h-4 bg-muted rounded animate-pulse w-4/6" />
-                  <div className="grid grid-cols-3 gap-4 mt-4">
-                    <div className="h-20 bg-muted rounded animate-pulse" />
-                    <div className="h-20 bg-muted rounded animate-pulse" />
-                    <div className="h-20 bg-muted rounded animate-pulse" />
+                  <div className="flex justify-between text-sm text-muted-foreground">
+                    <span>0</span>
+                    <span className="font-medium text-foreground">{sliderValue}</span>
+                    <span>100</span>
                   </div>
                 </div>
               </div>
-
-              {/* Pulse Animation */}
-              <div>
-                <h3 className="text-lg font-medium mb-4">Pulse Animation</h3>
-                <div className="flex gap-4">
-                  <div className="h-16 w-16 bg-primary rounded-full animate-pulse" />
-                  <div className="h-16 w-16 bg-success rounded-lg animate-pulse" />
-                  <div className="h-16 w-16 bg-warning rounded animate-pulse" />
-                </div>
-              </div>
             </div>
           </div>
         </section>
 
         {/* ============================================ */}
-        {/* SECTION: Animations */}
+        {/* SECTION: Navigation Components */}
         {/* ============================================ */}
-        <section id="animations">
+        <section id="navigation">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Animations</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>CSS & Tailwind</span>
+            <h2 className="text-3xl font-semibold">Navigation Components</h2>
+            <span className={badgeVariants({ variant: 'secondary' })}>8 patterns</span>
           </div>
 
-          <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Fade In */}
-              <div className="text-center">
-                <div className="h-32 bg-primary/10 rounded-lg flex items-center justify-center mb-3 animate-fade-in">
-                  <span className="text-lg font-medium">Fade In</span>
-                </div>
-                <code className="text-xs bg-muted px-2 py-1 rounded">animate-fade-in</code>
-              </div>
-
-              {/* Slide In Right */}
-              <div className="text-center">
-                <div className="h-32 bg-success/10 rounded-lg flex items-center justify-center mb-3 animate-slide-in-right">
-                  <span className="text-lg font-medium">Slide Right</span>
-                </div>
-                <code className="text-xs bg-muted px-2 py-1 rounded">animate-slide-in-right</code>
-              </div>
-
-              {/* Scale In */}
-              <div className="text-center">
-                <div className="h-32 bg-warning/10 rounded-lg flex items-center justify-center mb-3 animate-scale-in">
-                  <span className="text-lg font-medium">Scale In</span>
-                </div>
-                <code className="text-xs bg-muted px-2 py-1 rounded">animate-scale-in</code>
-              </div>
-
-              {/* Bounce */}
-              <div className="text-center">
-                <div className="h-32 bg-info/10 rounded-lg flex items-center justify-center mb-3">
-                  <div className="h-12 w-12 bg-info rounded-full animate-bounce" />
-                </div>
-                <code className="text-xs bg-muted px-2 py-1 rounded">animate-bounce</code>
-              </div>
-
-              {/* Spin */}
-              <div className="text-center">
-                <div className="h-32 bg-error/10 rounded-lg flex items-center justify-center mb-3">
-                  <div className="h-12 w-12 border-4 border-error border-t-transparent rounded-full animate-spin" />
-                </div>
-                <code className="text-xs bg-muted px-2 py-1 rounded">animate-spin</code>
-              </div>
-
-              {/* Ping */}
-              <div className="text-center">
-                <div className="h-32 bg-secondary/10 rounded-lg flex items-center justify-center mb-3">
-                  <div className="relative">
-                    <div className="h-12 w-12 bg-secondary rounded-full" />
-                    <div className="absolute inset-0 h-12 w-12 bg-secondary rounded-full animate-ping opacity-75" />
-                  </div>
-                </div>
-                <code className="text-xs bg-muted px-2 py-1 rounded">animate-ping</code>
-              </div>
+          <div className={stackVariants({ direction: 'vertical', gap: 'lg' })}>
+            {/* Breadcrumbs */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Breadcrumbs</h3>
+              <nav className={breadcrumbsVariants({ variant: 'default' })}>
+                <a href="#" className={breadcrumbItemVariants({ active: false })}>Home</a>
+                <span className="text-muted-foreground">/</span>
+                <a href="#" className={breadcrumbItemVariants({ active: false })}>Products</a>
+                <span className="text-muted-foreground">/</span>
+                <span className={breadcrumbItemVariants({ active: true })}>Current Page</span>
+              </nav>
             </div>
-          </div>
-        </section>
 
-        {/* ============================================ */}
-        {/* SECTION: Typography */}
-        {/* ============================================ */}
-        <section id="typography">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Typography</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>Euclid Circular A</span>
-          </div>
-
-          <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
-            <div className="space-y-6">
-              <div>
-                <h1>Heading 1 - 48px / 700 weight</h1>
-                <code className="text-xs text-muted-foreground">font-size: 48px; line-height: 56px;</code>
-              </div>
-              <div>
-                <h2>Heading 2 - 36px / 600 weight</h2>
-                <code className="text-xs text-muted-foreground">font-size: 36px; line-height: 44px;</code>
-              </div>
-              <div>
-                <h3>Heading 3 - 28px / 500 weight</h3>
-                <code className="text-xs text-muted-foreground">font-size: 28px; line-height: 36px;</code>
-              </div>
-              <div>
-                <h4>Heading 4 - 24px / 500 weight</h4>
-                <code className="text-xs text-muted-foreground">font-size: 24px; line-height: 32px;</code>
-              </div>
-              <div>
-                <h5>Heading 5 - 18px / 600 weight</h5>
-                <code className="text-xs text-muted-foreground">font-size: 18px; line-height: 24px;</code>
-              </div>
-              <div>
-                <h6>Heading 6 - 16px / 500 weight</h6>
-                <code className="text-xs text-muted-foreground">font-size: 16px; line-height: 22px;</code>
-              </div>
-              <div>
-                <p className="text-base">Body text - 16px / 400 weight / 24px line-height. This is the default body text style used throughout the application for readable paragraphs and content.</p>
-                <code className="text-xs text-muted-foreground">font-size: 16px; line-height: 24px;</code>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Small muted text - 14px / 400 weight. Used for secondary information, captions, and helper text.</p>
-                <code className="text-xs text-muted-foreground">font-size: 14px; line-height: 20px;</code>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================ */}
-        {/* SECTION: Tabs */}
-        {/* ============================================ */}
-        <section id="tabs">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Tabs</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>Interactive</span>
-          </div>
-
-          <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
-            <div className="border-b border-border mb-6">
-              <div className="flex gap-4">
-                {['tab1', 'tab2', 'tab3'].map((tab) => (
+            {/* Tabs */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Tabs</h3>
+              <div className={tabsListVariants({ variant: 'underline' })}>
+                {['overview', 'details', 'settings'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
-                      activeTab === tab
-                        ? 'border-primary text-primary'
-                        : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
-                    }`}
+                    className={tabsTriggerVariants({ active: activeTab === tab })}
                   >
-                    {tab === 'tab1' && 'Overview'}
-                    {tab === 'tab2' && 'Details'}
-                    {tab === 'tab3' && 'Settings'}
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
                   </button>
                 ))}
               </div>
-            </div>
-
-            <div className="py-4">
-              {activeTab === 'tab1' && (
-                <div className="space-y-4 animate-fade-in">
-                  <h3 className="text-lg font-medium">Overview Content</h3>
-                  <p className="text-muted-foreground">This is the content for the Overview tab. Tabs provide a clean way to organize content into separate views.</p>
-                  <div className="flex gap-2">
-                    <span className={badgeVariants({ variant: 'success' })}>Feature 1</span>
-                    <span className={badgeVariants({ variant: 'info' })}>Feature 2</span>
-                    <span className={badgeVariants({ variant: 'warning' })}>Beta</span>
-                  </div>
-                </div>
-              )}
-              {activeTab === 'tab2' && (
-                <div className="space-y-4 animate-fade-in">
-                  <h3 className="text-lg font-medium">Details Content</h3>
-                  <p className="text-muted-foreground">Detailed information appears in this tab. Each tab can contain any type of content including forms, tables, or other components.</p>
-                  <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                    <li>Detail item 1</li>
-                    <li>Detail item 2</li>
-                    <li>Detail item 3</li>
-                  </ul>
-                </div>
-              )}
-              {activeTab === 'tab3' && (
-                <div className="space-y-4 animate-fade-in">
-                  <h3 className="text-lg font-medium">Settings Content</h3>
-                  <p className="text-muted-foreground">Configuration options and settings can be placed in dedicated tabs for better organization.</p>
-                  <div className="space-y-3">
-                    <label className="flex items-center gap-2">
-                      <input type="checkbox" className="w-4 h-4 rounded border-border text-primary" defaultChecked />
-                      <span className="text-sm">Enable notifications</span>
-                    </label>
-                    <label className="flex items-center gap-2">
-                      <input type="checkbox" className="w-4 h-4 rounded border-border text-primary" />
-                      <span className="text-sm">Auto-save changes</span>
-                    </label>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================ */}
-        {/* SECTION: Accordion */}
-        {/* ============================================ */}
-        <section id="accordion">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Accordion</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>Collapsible</span>
-          </div>
-
-          <div className={cardVariants({ variant: 'default', padding: 'none' })}>
-            {['item1', 'item2', 'item3'].map((item, index) => (
-              <div key={item} className={index !== 0 ? 'border-t border-border' : ''}>
-                <button
-                  onClick={() => setAccordionOpen(accordionOpen === item ? null : item)}
-                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors"
-                >
-                  <span className="font-medium">Accordion Item {index + 1}</span>
-                  <svg
-                    className={`w-5 h-5 transition-transform ${accordionOpen === item ? 'rotate-180' : ''}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {accordionOpen === item && (
-                  <div className="px-6 pb-4 text-sm text-muted-foreground animate-fade-in">
-                    This is the content for accordion item {index + 1}. Accordions are great for organizing content that doesn't need to be visible all at once. Users can expand and collapse sections as needed.
-                  </div>
-                )}
+              <div className="mt-6 p-4 border rounded-lg">
+                {activeTab === 'overview' && <p>Overview content goes here</p>}
+                {activeTab === 'details' && <p>Details content goes here</p>}
+                {activeTab === 'settings' && <p>Settings content goes here</p>}
               </div>
-            ))}
+            </div>
+
+            {/* Pagination */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Pagination</h3>
+              <div className={paginationVariants({ variant: 'default', size: 'default' })}>
+                <button
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  className={buttonVariants({ variant: 'outline', size: 'sm' })}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+                {[1, 2, 3, 4, 5].map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={buttonVariants({
+                      variant: currentPage === page ? 'default' : 'outline',
+                      size: 'sm'
+                    })}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setCurrentPage(Math.min(5, currentPage + 1))}
+                  className={buttonVariants({ variant: 'outline', size: 'sm' })}
+                  disabled={currentPage === 5}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ============================================ */}
-        {/* SECTION: Modal */}
+        {/* SECTION: Data Display Components */}
         {/* ============================================ */}
-        <section id="modal">
+        <section id="data">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Modal Dialog</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>Overlay</span>
+            <h2 className="text-3xl font-semibold">Data Display</h2>
+            <span className={badgeVariants({ variant: 'secondary' })}>10 components</span>
+          </div>
+
+          <div className={stackVariants({ direction: 'vertical', gap: 'lg' })}>
+            {/* Accordion */}
+            <div className={cardVariants({ variant: 'default', padding: 'none' })}>
+              <h3 className="text-lg font-medium px-6 pt-6 pb-4">Accordion</h3>
+              {['item1', 'item2', 'item3'].map((item, index) => (
+                <div key={item} className={accordionItemVariants({ variant: 'default' })}>
+                  <button
+                    onClick={() => setAccordionOpen(accordionOpen === item ? null : item)}
+                    className={accordionTriggerVariants({ expanded: accordionOpen === item })}
+                  >
+                    <span className="font-medium">Accordion Item {index + 1}</span>
+                    <svg
+                      className={`w-5 h-5 transition-transform ${accordionOpen === item ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {accordionOpen === item && (
+                    <div className="px-6 pb-4 text-sm text-muted-foreground">
+                      Content for accordion item {index + 1}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Table */}
+            <div className={cardVariants({ variant: 'default', padding: 'none' })}>
+              <h3 className="text-lg font-medium px-6 pt-6 pb-4">Table</h3>
+              <div className="overflow-x-auto">
+                <table className={tableVariants({ variant: 'default', striped: true })}>
+                  <thead>
+                    <tr>
+                      <th className="px-6 py-3 text-left">Name</th>
+                      <th className="px-6 py-3 text-left">Status</th>
+                      <th className="px-6 py-3 text-left">Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { name: 'John Doe', status: 'success', role: 'Admin' },
+                      { name: 'Jane Smith', status: 'warning', role: 'User' },
+                      { name: 'Bob Johnson', status: 'idle', role: 'Guest' },
+                    ].map((row, i) => (
+                      <tr key={i}>
+                        <td className="px-6 py-4">{row.name}</td>
+                        <td className="px-6 py-4">
+                          <span className={badgeVariants({ variant: row.status as any })}>
+                            {row.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">{row.role}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Stats/KPIs */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { label: 'Total Users', value: '12,345', trend: '+12.5%', variant: 'success' },
+                { label: 'Revenue', value: '$45,678', trend: '+8.2%', variant: 'info' },
+                { label: 'Conversion', value: '3.21%', trend: '-2.1%', variant: 'warning' },
+              ].map((stat, i) => (
+                <div key={i} className={cardVariants({ variant: 'default', padding: 'lg' })}>
+                  <div className={statVariants({ variant: 'default' })}>
+                    <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
+                    <p className="text-3xl font-bold mb-2">{stat.value}</p>
+                    <span className={badgeVariants({ variant: stat.variant as any, size: 'sm' })}>
+                      {stat.trend}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Lists */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">List</h3>
+              <ul className={listVariants({ variant: 'default', divided: true })}>
+                {['First item', 'Second item', 'Third item', 'Fourth item'].map((item, i) => (
+                  <li key={i} className={listItemVariants({ variant: 'default', hoverable: true })}>
+                    <span className="flex items-center gap-3">
+                      <span className="h-2 w-2 rounded-full bg-primary" />
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================ */}
+        {/* SECTION: Overlays */}
+        {/* ============================================ */}
+        <section id="overlays">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-semibold">Overlay Components</h2>
+            <span className={badgeVariants({ variant: 'secondary' })}>Modal, Tooltip, Popover</span>
           </div>
 
           <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
-            <p className="text-muted-foreground mb-4">Click the button below to open a modal dialog.</p>
-            <button
-              onClick={() => setShowModal(true)}
-              className={buttonVariants({ variant: 'default' })}
-            >
-              Open Modal
-            </button>
+            <div className="space-y-4">
+              <button
+                onClick={() => setShowModal(true)}
+                className={buttonVariants({ variant: 'default' })}
+              >
+                Open Modal
+              </button>
+
+              <div className="flex gap-2">
+                <div className="group relative">
+                  <button className={buttonVariants({ variant: 'outline' })}>
+                    Hover for Tooltip
+                  </button>
+                  <div className="invisible group-hover:visible absolute bottom-full left-1/2 -translate-x-1/2 mb-2">
+                    <div className={tooltipContentVariants({ variant: 'default', size: 'default' })}>
+                      This is a tooltip!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Modal Overlay */}
+          {/* Modal */}
           {showModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
-              {/* Backdrop */}
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
               <div
-                className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+                className={modalOverlayVariants({ blur: true })}
                 onClick={() => setShowModal(false)}
               />
-
-              {/* Modal Content */}
-              <div className="relative z-10 w-full max-w-lg mx-4 animate-scale-in">
-                <div className={cardVariants({ variant: 'elevated', padding: 'lg' })}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold">Modal Title</h3>
-                      <p className="text-sm text-muted-foreground mt-1">This is a modal dialog example</p>
-                    </div>
-                    <button
-                      onClick={() => setShowModal(false)}
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div className="mb-6">
-                    <p className="text-sm text-muted-foreground">
-                      This is the modal content. Modals are great for focused interactions that require user attention. They overlay the main content and prevent interaction with the page until dismissed.
-                    </p>
-                  </div>
-
+              <div className="relative z-10 w-full max-w-lg mx-4">
+                <div className={modalContentVariants({ variant: 'default', size: 'default' })}>
+                  <h3 className="text-xl font-semibold mb-2">Modal Title</h3>
+                  <p className="text-muted-foreground mb-6">
+                    This is a modal dialog built with our overlay variants.
+                  </p>
                   <div className="flex gap-3 justify-end">
                     <button
                       onClick={() => setShowModal(false)}
@@ -926,107 +622,257 @@ export default function DesignSystemDemo() {
         </section>
 
         {/* ============================================ */}
-        {/* SECTION: Tables */}
+        {/* SECTION: Feedback Components */}
         {/* ============================================ */}
-        <section id="tables">
+        <section id="feedback">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-semibold">Tables</h2>
-            <span className={badgeVariants({ variant: 'secondary' })}>Data Display</span>
+            <h2 className="text-3xl font-semibold">Feedback Components</h2>
+            <span className={badgeVariants({ variant: 'secondary' })}>Alerts, Progress, Spinners</span>
           </div>
 
-          <div className={cardVariants({ variant: 'default', padding: 'none' })}>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-muted/50 border-b border-border">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Role</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  <tr className="hover:bg-muted/30 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium">John Doe</div>
-                      <div className="text-sm text-muted-foreground">john@example.com</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={badgeVariants({ variant: 'success' })}>Active</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">Admin</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <button className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Edit</button>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-muted/30 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium">Jane Smith</div>
-                      <div className="text-sm text-muted-foreground">jane@example.com</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={badgeVariants({ variant: 'warning' })}>Pending</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">User</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <button className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Edit</button>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-muted/30 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium">Bob Johnson</div>
-                      <div className="text-sm text-muted-foreground">bob@example.com</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={badgeVariants({ variant: 'idle' })}>Inactive</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">User</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <button className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Edit</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div className={stackVariants({ direction: 'vertical', gap: 'lg' })}>
+            {/* Alerts */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium">Alerts</h3>
+              {['success', 'warning', 'error', 'info'].map((variant) => (
+                <div key={variant} className={alertVariants({ variant: variant as any, size: 'default' })}>
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <div>
+                      <h4 className="font-medium capitalize">{variant} Alert</h4>
+                      <p className="text-sm mt-1">This is a {variant} alert message.</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Progress Bars */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Progress Indicators</h3>
+              <div className="space-y-6">
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm">Default Progress</span>
+                    <span className="text-sm text-muted-foreground">{progress}%</span>
+                  </div>
+                  <div className={progressVariants({ variant: 'default', size: 'default' })}>
+                    <div
+                      className={progressIndicatorVariants({ variant: 'default' })}
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm">Success Progress</span>
+                    <span className="text-sm text-muted-foreground">75%</span>
+                  </div>
+                  <div className={progressVariants({ variant: 'success', size: 'default' })}>
+                    <div
+                      className={progressIndicatorVariants({ variant: 'success' })}
+                      style={{ width: '75%' }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Spinners */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Loading Spinners</h3>
+              <div className="flex gap-6 items-center">
+                <div className={spinnerVariants({ size: 'sm', variant: 'default' })} />
+                <div className={spinnerVariants({ size: 'default', variant: 'default' })} />
+                <div className={spinnerVariants({ size: 'lg', variant: 'default' })} />
+                <div className={spinnerVariants({ size: 'default', variant: 'success' })} />
+                <div className={spinnerVariants({ size: 'default', variant: 'warning' })} />
+              </div>
+            </div>
+
+            {/* Skeletons */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Skeleton Loaders</h3>
+              <div className="space-y-3">
+                <div className={skeletonVariants({ variant: 'text', size: 'default' })} />
+                <div className={skeletonVariants({ variant: 'text', size: 'default' })} style={{ width: '80%' }} />
+                <div className={skeletonVariants({ variant: 'text', size: 'default' })} style={{ width: '60%' }} />
+              </div>
+            </div>
+
+            {/* Empty State */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <div className={emptyStateVariants({ size: 'default' })}>
+                <svg className="w-16 h-16 text-muted-foreground mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                <h3 className="text-lg font-semibold mb-2">No Data Available</h3>
+                <p className="text-sm text-muted-foreground mb-4">Get started by adding your first item</p>
+                <button className={buttonVariants({ variant: 'default' })}>Add Item</button>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ============================================ */}
-        {/* SECTION: Code Example & Implementation */}
+        {/* SECTION: Media Components */}
+        {/* ============================================ */}
+        <section id="media">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-semibold">Media Components</h2>
+            <span className={badgeVariants({ variant: 'secondary' })}>Avatar, Image, Icon</span>
+          </div>
+
+          <div className={stackVariants({ direction: 'vertical', gap: 'lg' })}>
+            {/* Avatars */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Avatars</h3>
+              <div className="flex gap-4 items-center flex-wrap">
+                {['xs', 'sm', 'default', 'md', 'lg', 'xl'].map((size) => (
+                  <div key={size} className={avatarVariants({ size: size as any, shape: 'circle' })}>
+                    <div className={avatarFallbackVariants({ size: size as any })}>
+                      JD
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Icons */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Icons</h3>
+              <div className="flex gap-6 items-center">
+                {['sm', 'default', 'md', 'lg', 'xl'].map((size) => (
+                  <svg
+                    key={size}
+                    className={iconVariants({ size: size as any, variant: 'default' })}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================ */}
+        {/* SECTION: Layout Components */}
+        {/* ============================================ */}
+        <section id="layout">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-semibold">Layout Components</h2>
+            <span className={badgeVariants({ variant: 'secondary' })}>Divider, Stack, Section</span>
+          </div>
+
+          <div className={stackVariants({ direction: 'vertical', gap: 'lg' })}>
+            {/* Dividers */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Dividers</h3>
+              <div className="space-y-6">
+                <div>
+                  <p className="text-sm mb-2">Solid Divider</p>
+                  <div className={dividerVariants({ variant: 'solid', spacing: 'default' })} />
+                </div>
+                <div>
+                  <p className="text-sm mb-2">Dashed Divider</p>
+                  <div className={dividerVariants({ variant: 'dashed', spacing: 'default' })} />
+                </div>
+                <div>
+                  <p className="text-sm mb-2">Dotted Divider</p>
+                  <div className={dividerVariants({ variant: 'dotted', spacing: 'default' })} />
+                </div>
+              </div>
+            </div>
+
+            {/* Stack */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Stack (Vertical & Horizontal)</h3>
+              <div className="space-y-6">
+                <div>
+                  <p className="text-sm mb-3">Vertical Stack</p>
+                  <div className={stackVariants({ direction: 'vertical', gap: 'default' })}>
+                    <div className="bg-primary/10 p-3 rounded">Item 1</div>
+                    <div className="bg-primary/10 p-3 rounded">Item 2</div>
+                    <div className="bg-primary/10 p-3 rounded">Item 3</div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm mb-3">Horizontal Stack</p>
+                  <div className={stackVariants({ direction: 'horizontal', gap: 'default' })}>
+                    <div className="bg-success/10 p-3 rounded">Item 1</div>
+                    <div className="bg-success/10 p-3 rounded">Item 2</div>
+                    <div className="bg-success/10 p-3 rounded">Item 3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Center */}
+            <div className={cardVariants({ variant: 'default', padding: 'lg' })}>
+              <h3 className="text-lg font-medium mb-4">Center Component</h3>
+              <div className={centerVariants({ axis: 'both' })} style={{ height: '150px', border: '2px dashed hsl(var(--border))' }}>
+                <div className="bg-primary text-primary-foreground px-4 py-2 rounded">
+                  Centered Content
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================ */}
+        {/* SECTION: Usage Example */}
         {/* ============================================ */}
         <section id="usage">
-          <h2 className="text-3xl font-semibold mb-6">✅ Usage Example</h2>
+          <h2 className="text-3xl font-semibold mb-6">✅ Complete Usage Example</h2>
 
           <div className={cardVariants({ variant: 'success', padding: 'lg' })}>
-            <h3 className="text-xl font-semibold mb-4">How to Use This Design System</h3>
+            <h3 className="text-xl font-semibold mb-4">How to Use This Exhaustive Design System</h3>
             <pre className="bg-muted p-6 rounded-lg overflow-x-auto text-sm mb-4">
-              <code>{`import { buttonVariants, badgeVariants, cardVariants } from '@/lib/component-variants';
+              <code>{`import {
+  buttonVariants,
+  inputVariants,
+  cardVariants,
+  alertVariants,
+  avatarVariants
+} from '@/lib/component-variants';
 
 function MyComponent() {
   return (
-    <div className={cardVariants({ variant: 'elevated', hoverable: true })}>
-      <h2 className="text-primary text-2xl font-bold mb-4">
-        Welcome to AssetWorks
-      </h2>
+    <div className={cardVariants({ variant: 'elevated', padding: 'lg' })}>
+      <h2>User Profile</h2>
 
-      <div className="flex gap-2 mb-4">
-        <span className={badgeVariants({ variant: 'success' })}>Active</span>
-        <span className={badgeVariants({ variant: 'info' })}>New</span>
+      <div className={avatarVariants({ size: 'lg', shape: 'circle' })}>
+        <img src="/avatar.jpg" alt="User" />
+      </div>
+
+      <input
+        className={inputVariants({ variant: 'filled', size: 'lg' })}
+        placeholder="Enter name..."
+      />
+
+      <div className={alertVariants({ variant: 'success' })}>
+        Profile updated successfully!
       </div>
 
       <button className={buttonVariants({ variant: 'default', size: 'lg' })}>
-        Get Started
+        Save Changes
       </button>
     </div>
   );
 }`}</code>
             </pre>
 
-            <div className="flex gap-2 flex-wrap">
-              <span className={badgeVariants({ variant: 'success' })}>Type-Safe</span>
-              <span className={badgeVariants({ variant: 'info' })}>Tailwind Integrated</span>
-              <span className={badgeVariants({ variant: 'warning' })}>Customizable</span>
-              <span className={badgeVariants({ variant: 'outline' })}>Production Ready</span>
+            <div className="flex gap-2 flex-wrap mt-6">
+              <span className={badgeVariants({ variant: 'success' })}>200+ Design Tokens</span>
+              <span className={badgeVariants({ variant: 'info' })}>17 Component Modules</span>
+              <span className={badgeVariants({ variant: 'warning' })}>Type-Safe with CVA</span>
+              <span className={badgeVariants({ variant: 'outline' })}>Fully Customizable</span>
             </div>
           </div>
         </section>
@@ -1036,27 +882,37 @@ function MyComponent() {
       {/* Footer */}
       <footer className="border-t border-border mt-20 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="font-semibold mb-3">AssetWorks Design System</h3>
               <p className="text-sm text-muted-foreground">Version 1.0.0</p>
-              <p className="text-sm text-muted-foreground mt-1">Production Ready ✅</p>
+              <p className="text-sm text-muted-foreground mt-1">Exhaustive & Production Ready ✅</p>
             </div>
             <div>
-              <h3 className="font-semibold mb-3">Documentation</h3>
+              <h3 className="font-semibold mb-3">Design Tokens</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>→ /lib/design-system/README.md</li>
-                <li>→ DESIGN_SYSTEM_QUICKSTART.md</li>
-                <li>→ DESIGN_SYSTEM_COMPLETE.md</li>
+                <li>✓ Colors, Typography, Spacing</li>
+                <li>✓ Shadows, Animations, Breakpoints</li>
+                <li>✓ Borders, Opacity, Blur, Transforms</li>
+                <li>✓ Cursors, Transitions, Sizes, Grids</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-3">Component Variants</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>✓ Forms (7 types)</li>
+                <li>✓ Navigation (8 patterns)</li>
+                <li>✓ Data Display (10 components)</li>
+                <li>✓ Overlays, Feedback, Media, Layout</li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-3">Features</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>✓ 200+ Design Tokens</li>
-                <li>✓ Type-Safe Components</li>
-                <li>✓ Full Accessibility</li>
-                <li>✓ Dark Mode Ready</li>
+                <li>✓ 17 Component Modules</li>
+                <li>✓ Full Type Safety (CVA)</li>
+                <li>✓ Accessibility Ready</li>
               </ul>
             </div>
           </div>

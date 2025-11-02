@@ -186,6 +186,303 @@ export {
 } from './breakpoints';
 
 // ============================================================================
+// BORDERS
+// ============================================================================
+
+export {
+  borderWidth,
+  borderStyle,
+  borderColor,
+  semanticBorders,
+  outline,
+  outlineOffset,
+  borderClasses,
+  dividerPatterns,
+  borders,
+  getBorderWidth,
+  getBorderStyle,
+  getBorderColor,
+  getSemanticBorder,
+  createBorder,
+  getDividerPattern,
+  type BorderWidth,
+  type BorderStyle,
+  type BorderColor,
+  type SemanticBorder,
+  type Outline,
+  type OutlineOffset,
+  type BorderClass,
+  type DividerPattern,
+} from './borders';
+
+// ============================================================================
+// OPACITY
+// ============================================================================
+
+export {
+  opacity,
+  semanticOpacity,
+  opacityClasses,
+  opacityStates,
+  glassPresets,
+  opacitySystem,
+  getOpacity,
+  percentToOpacity,
+  opacityToPercent,
+  getOpacityClass,
+  getGlassPreset,
+  withOpacity,
+  type Opacity,
+  type SemanticOpacity,
+  type OpacityClass,
+  type OpacityState,
+  type GlassPreset,
+} from './opacity';
+
+// ============================================================================
+// BLUR
+// ============================================================================
+
+export {
+  blur,
+  backdropBlur,
+  filterBlur,
+  semanticBlur,
+  blurClasses,
+  glassBlurPresets,
+  overlayBlurPresets,
+  blurSystem,
+  getBlur,
+  getBackdropBlur,
+  getFilterBlur,
+  getSemanticBlur,
+  getBlurClass,
+  getGlassBlurPreset,
+  getOverlayBlurPreset,
+  createBackdropBlur,
+  type Blur,
+  type BackdropBlur,
+  type FilterBlur,
+  type SemanticBlur,
+  type BlurClass,
+  type GlassBlurPreset,
+  type OverlayBlurPreset,
+} from './blur';
+
+// ============================================================================
+// TRANSFORMS
+// ============================================================================
+
+export {
+  scale,
+  rotate,
+  translate,
+  skew,
+  semanticTransforms,
+  transformCombinations,
+  transformClasses,
+  transforms,
+  getScale,
+  getRotate,
+  getTranslate,
+  getSkew,
+  getSemanticTransform,
+  getTransformCombination,
+  createScale,
+  createRotate,
+  createTranslate,
+  combineTransforms,
+  type Scale,
+  type Rotate,
+  type Translate,
+  type Skew,
+  type SemanticTransform,
+  type TransformCombination,
+  type TransformClass,
+} from './transforms';
+
+// ============================================================================
+// CURSORS
+// ============================================================================
+
+export {
+  cursor,
+  semanticCursors,
+  cursorClasses,
+  cursorStatePatterns,
+  cursorWithPointerEvents,
+  cursors,
+  getCursor,
+  getCursorClass,
+  getCursorStatePattern,
+  getCursorWithPointerEvents,
+  conditionalCursor,
+  type Cursor,
+  type SemanticCursor,
+  type CursorClass,
+  type CursorStatePattern,
+  type CursorWithPointerEvents,
+} from './cursors';
+
+// ============================================================================
+// TRANSITIONS
+// ============================================================================
+
+export {
+  transitionProperty,
+  transitions,
+  semanticTransitions,
+  transitionClasses,
+  transitionDelay,
+  staggerDelay,
+  transitionSystem,
+  getTransition,
+  getTransitionClass,
+  getTransitionDelay,
+  createTransition,
+  combineTransitions,
+  createStaggerDelay,
+  generateStaggerDelays,
+  type TransitionProperty,
+  type Transition,
+  type SemanticTransition,
+  type TransitionClass,
+  type TransitionDelay,
+} from './transitions';
+
+// ============================================================================
+// SIZES
+// ============================================================================
+
+export {
+  size,
+  fractionalSize,
+  iconSize,
+  buttonSize,
+  inputSize,
+  avatarSize,
+  badgeSize,
+  spinnerSize,
+  containerWidth as sizeContainerWidth,
+  modalWidth,
+  semanticSizes,
+  sizeClasses,
+  sizes,
+  getSize,
+  getIconSize,
+  getButtonSize,
+  getInputSize,
+  getAvatarSize,
+  getSpinnerSize,
+  getContainerWidth as getSizeContainerWidth,
+  getModalWidth,
+  getSemanticSize,
+  getSizeClass,
+  createSize,
+  type Size,
+  type FractionalSize,
+  type IconSize,
+  type ButtonSize,
+  type InputSize,
+  type AvatarSize,
+  type BadgeSize,
+  type SpinnerSize,
+  type ContainerWidth as SizeContainerWidth,
+  type ModalWidth,
+  type SemanticSize,
+  type SizeClass,
+} from './sizes';
+
+// ============================================================================
+// ASPECT RATIOS
+// ============================================================================
+
+export {
+  aspectRatio,
+  aspectRatioValues,
+  semanticAspectRatios,
+  aspectRatioClasses,
+  aspectRatioContainers,
+  aspectRatios,
+  getAspectRatio,
+  getAspectRatioValue,
+  getAspectRatioClass,
+  getAspectRatioContainer,
+  calculatePaddingBottom,
+  createAspectRatio,
+  calculateHeight,
+  calculateWidth,
+  isLandscape,
+  isPortrait,
+  isSquare,
+  type AspectRatio,
+  type AspectRatioValue,
+  type SemanticAspectRatio,
+  type AspectRatioClass,
+  type AspectRatioContainer,
+} from './aspect-ratios';
+
+// ============================================================================
+// GRIDS
+// ============================================================================
+
+export {
+  gridColumns,
+  gridRows,
+  gridGap,
+  responsiveGrids,
+  gridLayouts,
+  gridClasses,
+  grids,
+  getGridColumns,
+  getGridRows,
+  getGridGap,
+  getResponsiveGrid,
+  getGridLayout,
+  getGridClass,
+  createGridColumns,
+  createAutoFitGrid,
+  createAutoFillGrid,
+  type GridColumns,
+  type GridRows,
+  type GridGap,
+  type ResponsiveGrid,
+  type GridLayout,
+  type GridClass,
+} from './grids';
+
+// ============================================================================
+// CONTAINERS
+// ============================================================================
+
+export {
+  containerMaxWidth,
+  containerPadding,
+  semanticContainers,
+  responsiveContainers,
+  containerClasses,
+  sectionSpacing,
+  contentWidths,
+  containers,
+  getContainerMaxWidth,
+  getContainerPadding,
+  getSemanticContainer,
+  getResponsiveContainer,
+  getContainerClass,
+  getSectionSpacing,
+  getContentWidth,
+  createContainer,
+  buildContainerClass,
+  type ContainerMaxWidth,
+  type ContainerPadding,
+  type SemanticContainer,
+  type ResponsiveContainer,
+  type ContainerClass,
+  type SectionSpacing,
+  type ContentWidth,
+} from './containers';
+
+// ============================================================================
 // DESIGN SYSTEM METADATA
 // ============================================================================
 
