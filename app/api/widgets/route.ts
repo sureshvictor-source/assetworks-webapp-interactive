@@ -15,6 +15,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // In development mode with invalid ObjectId, return empty array
+    const isDev = process.env.DISABLE_AUTH === 'true';
+    const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(session.user.id);
+
+    if (isDev && !isValidObjectId) {
+      console.log('⚠️  Dev mode: Returning empty widgets for non-ObjectId user:', session.user.id);
+      return NextResponse.json({
+        success: true,
+        widgets: [],
+      });
+    }
+
     await connectToDatabase();
 
     const widgets = await Widget.find({ userId: session.user.id })

@@ -15,6 +15,19 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // In development mode with invalid ObjectId, return default credits
+    const isDev = process.env.DISABLE_AUTH === 'true';
+    const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(session.user.id);
+
+    if (isDev && !isValidObjectId) {
+      console.log('⚠️  Dev mode: Returning default credits for non-ObjectId user:', session.user.id);
+      return NextResponse.json({
+        success: true,
+        credits: 'unlimited',
+        plan: 'pro',
+      });
+    }
+
     await connectToDatabase();
 
     const user = await User.findById(session.user.id).select('aiCredits plan');
