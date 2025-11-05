@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { TrendingUp, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-// Password strength checker
+// Password strength checker - Enhanced security UI
 const calculatePasswordStrength = (password: string) => {
   let strength = 0;
   if (password.length >= 8) strength++;
