@@ -7,8 +7,22 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, Mail, Lock, Chrome } from 'lucide-react';
+import { TrendingUp, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
+
+// Password strength checker
+const calculatePasswordStrength = (password: string) => {
+  let strength = 0;
+  if (password.length >= 8) strength++;
+  if (password.length >= 12) strength++;
+  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+  if (/\d/.test(password)) strength++;
+  if (/[^a-zA-Z\d]/.test(password)) strength++;
+
+  if (strength <= 2) return { level: 'weak', label: 'Weak', color: 'bg-red-500' };
+  if (strength <= 3) return { level: 'medium', label: 'Medium', color: 'bg-yellow-500' };
+  return { level: 'strong', label: 'Strong', color: 'bg-green-500' };
+};
 
 function SignInForm() {
   const router = useRouter();
@@ -16,6 +30,9 @@ function SignInForm() {
   const [email, setEmail] = useState('test@assetworks.ai');
   const [password, setPassword] = useState('Test123456!');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(calculatePasswordStrength('Test123456!'));
 
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 
@@ -65,14 +82,6 @@ function SignInForm() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      await signIn('google', { callbackUrl });
-    } catch (error) {
-      toast.error('Failed to sign in with Google');
-    }
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 px-4">
       <div className="w-full max-w-md">
@@ -118,20 +127,62 @@ function SignInForm() {
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setPasswordStrength(calculatePasswordStrength(e.target.value));
+                    }}
+                    className="pl-10 pr-10"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
                 </div>
+                {password && (
+                  <div className="mt-2">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs text-muted-foreground">Password strength:</span>
+                      <span className={`text-xs font-medium ${
+                        passwordStrength.level === 'weak' ? 'text-red-600' :
+                        passwordStrength.level === 'medium' ? 'text-yellow-600' :
+                        'text-green-600'
+                      }`}>
+                        {passwordStrength.label}
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                      <div
+                        className={`h-1.5 rounded-full transition-all duration-300 ${passwordStrength.color}`}
+                        style={{
+                          width: passwordStrength.level === 'weak' ? '33%' :
+                                 passwordStrength.level === 'medium' ? '66%' : '100%'
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input type="checkbox" className="mr-2 rounded" />
-                  <span className="text-sm">Remember me</span>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={keepLoggedIn}
+                    onChange={(e) => setKeepLoggedIn(e.target.checked)}
+                    className="mr-2 rounded w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  <span className="text-sm">Keep me logged in</span>
                 </label>
                 <Link href="/auth/forgot-password" className="text-sm text-blue-600 hover:underline">
                   Forgot password?
@@ -143,26 +194,7 @@ function SignInForm() {
               </Button>
             </form>
 
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-border dark:border-border" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background dark:bg-background px-2 text-muted-foreground">Or continue with</span>
-              </div>
-            </div>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={handleGoogleSignIn}
-            >
-              <Chrome className="w-4 h-4 mr-2" />
-              Google
-            </Button>
-
-            <p className="mt-4 text-center text-sm text-muted-foreground dark:text-muted-foreground">
+            <p className="mt-6 text-center text-sm text-muted-foreground dark:text-muted-foreground">
               Don't have an account?{' '}
               <Link href="/auth/signup" className="font-medium text-blue-600 hover:underline">
                 Sign up
